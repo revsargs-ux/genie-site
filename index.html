@@ -64,8 +64,8 @@ footer a{color:#bcd0ff}
 </div>
 
 <div class="adv">
-  <h2>🔥 Почему Genie, а не SPRU</h2>
-  <div class="sub">Возможности, которых нет у других ботов</div>
+  <h2>🔥 Что умеет Genie</h2>
+  <div class="sub">Возможности, которых нет больше ни у кого</div>
   <div class="grid">
     <a class="feat" href="https://t.me/GenieV_bot?start=rasskazhi_pro_generaciu_video"><div class="ico">🎬</div><b>Клипы и мультики</b><span>без ограничений по количеству и времени — Seedance 2.0</span></a>
     <a class="feat" href="https://t.me/GenieV_bot?start=sozdai_mne_igru"><div class="ico">🎮</div><b>Создание игр</b><span>Genie напишет игру специально для тебя</span></a>
@@ -132,7 +132,7 @@ footer a{color:#bcd0ff}
 <script>
 (function(){
   var a=document.getElementById('bg'),b=document.getElementById('music'),started=false;a.src=(Math.random()<0.5?'music-a.mp3':'music-b.mp3');
-  function tryPlay(){if(started)return;started=true;a.volume=0.13;a.play().then(function(){b.textContent='🔊';}).catch(function(){started=false;});}
+  function tryPlay(){if(started)return;started=true;a.volume=0.065;a.play().then(function(){b.textContent='🔊';}).catch(function(){started=false;});}
   ['pointerdown','touchstart','keydown'].forEach(function(e){document.addEventListener(e,tryPlay,{once:false});});
   b.addEventListener('click',function(ev){ev.stopPropagation();if(a.paused){a.play();b.textContent='🔊';}else{a.pause();b.textContent='🔈';}});
 })();
