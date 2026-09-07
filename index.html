@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genie — ИИ, который делает за тебя</title>
+<meta name="description" content="Genie — твой ИИ-помощник в Telegram: клипы и мультики без ограничений, игры, музыка, тексты, поиск. Начни бесплатно.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#0a1e4e 0%,#123a8f 55%,#0e2a6b 100%);color:#fff}
+.hero{text-align:center;padding:48px 20px 28px}
+.hero .mascot{width:132px;height:132px;margin:0 auto 16px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.35);box-shadow:0 18px 50px rgba(0,0,0,.45)}
+h1{font-size:34px;letter-spacing:.5px}
+.users{margin-top:6px;color:#bcd0ff;font-size:15px}
+.badge{display:inline-block;margin-top:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:8px 18px;border-radius:20px;font-size:14px}
+.quick{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.quick a{color:#fff;text-decoration:none;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:10px 16px;border-radius:14px;font-size:14px;transition:.2s}
+.quick a:hover{background:rgba(255,255,255,.22)}
+.quick a:active{transform:scale(.96)}
+/* Преимущества */
+.adv{max-width:520px;margin:26px auto 0;padding:0 20px}
+.adv h2{text-align:center;font-size:20px;margin-bottom:6px}
+.adv .sub{text-align:center;color:#bcd0ff;font-size:13px;margin-bottom:14px}
+.adv .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.adv .feat{background:linear-gradient(160deg,rgba(255,210,63,.16),rgba(255,255,255,.06));border:1px solid rgba(255,210,63,.35);border-radius:18px;padding:16px;text-decoration:none;color:#fff;display:block;transition:.2s}
+.adv .feat:hover{background:linear-gradient(160deg,rgba(255,210,63,.28),rgba(255,255,255,.10))}
+.adv .feat .ico{font-size:26px}
+.adv .feat b{display:block;margin:8px 0 4px;font-size:14.5px}
+.adv .feat span{font-size:12px;color:#d9e4ff;line-height:1.35;display:block}
+section{padding:24px 20px;max-width:520px;margin:0 auto}
+section h2{font-size:19px;margin-bottom:14px;color:#eaf1ff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:16px;text-decoration:none;color:#fff;display:block;transition:.2s}
+.card:hover{background:rgba(255,255,255,.18)}
+.card:active{transform:scale(.97)}
+.card .ico{font-size:26px}
+.card b{display:block;margin:8px 0 4px;font-size:15px}
+.card span{font-size:12.5px;color:#bcd0ff;line-height:1.35;display:block}
+.cta{display:block;max-width:520px;margin:10px auto 30px;text-align:center;background:#ffd23f;color:#0a1e4e;font-weight:700;font-size:17px;padding:16px;border-radius:16px;text-decoration:none;box-shadow:0 10px 30px rgba(255,210,63,.3)}
+footer{text-align:center;padding:0 20px 60px;color:#9db4e8;font-size:13px}
+footer a{color:#bcd0ff}
+/* Музыка */
+#music{position:fixed;bottom:16px;right:16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:50%;width:46px;height:46px;font-size:19px;cursor:pointer;z-index:99;backdrop-filter:blur(6px)}
+</style>
+</head>
+<body>
+<audio id="bg" loop preload="auto" src="music-bg.mp3"></audio>
+<button id="music" title="Музыка вкл/выкл">🔈</button>
+
+<div class="hero">
+  <img class="mascot" src="avatar.jpg" alt="Genie">
+  <h1>Genie</h1>
+  <div class="users">👥 12 847 пользователей</div>
+  <div class="badge">ИИ, который делает за тебя</div>
+  <div class="quick">
+    <a href="https://t.me/GenieV_bot?text=Помоги написать текст">✍️ Текст</a>
+    <a href="https://t.me/GenieV_bot?text=Сгенерируй изображение">🖼 Картинка</a>
+    <a href="https://t.me/GenieV_bot?text=Сгенерируй видео">🎬 Видео</a>
+    <a href="https://t.me/GenieV_bot?text=Найди в интернете">🔎 Поиск</a>
+    <a href="https://t.me/GenieV_bot?text=Озвучь текст">🔊 Звук</a>
+    <a href="https://t.me/GenieV_bot?text=Что ещё ты умеешь?">⋯ Ещё</a>
+  </div>
+</div>
+
+<div class="adv">
+  <h2>🔥 Почему Genie, а не SPRU</h2>
+  <div class="sub">Возможности, которых нет у других ботов</div>
+  <div class="grid">
+    <a class="feat" href="https://t.me/GenieV_bot?text=Расскажи про генерацию видео"><div class="ico">🎬</div><b>Клипы и мультики</b><span>без ограничений по количеству и времени — Seedance 2.0</span></a>
+    <a class="feat" href="https://t.me/GenieV_bot?text=Создай мне игру"><div class="ico">🎮</div><b>Создание игр</b><span>Genie напишет игру специально для тебя</span></a>
+    <a class="feat" href="https://t.me/GenieV_bot?text=Напиши и смиксуй музыку"><div class="ico">🎵</div><b>Музыка и микс</b><span>напишет трек, сведёт и смиксует</span></a>
+    <a class="feat" href="https://t.me/GenieV_bot?text=Какие у тебя живые голоса?"><div class="ico">🎙</div><b>Живая озвучка</b><span>4 реальных голоса — мужские и женские</span></a>
+    <a class="feat" href="https://t.me/GenieV_bot?text=Расскажи про систему навыков"><div class="ico">🧩</div><b>Навыки-модули</b><span>функционал подключается и растёт</span></a>
+    <a class="feat" href="https://t.me/GenieV_bot?text=Поставь напоминание"><div class="ico">⏰</div><b>Умный планировщик</b><span>напоминания и задачи по расписанию</span></a>
+  </div>
+</div>
+
+<section>
+  <h2>⭐ Лучшее</h2>
+  <div class="grid">
+    <a class="card" href="https://t.me/GenieV_bot?text=Помоги продать вещь на Авито"><div class="ico">📦</div><b>Продать на Авито</b><span>объявление, которое продаёт само</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Помоги спланировать путешествие"><div class="ico">✈️</div><b>Путешествие</b><span>маршрут, билеты, отели</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Проанализируй Instagram аккаунт"><div class="ico">📸</div><b>Анализ Instagram</b><span>контент-план и идеи</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Помоги разобраться с документами"><div class="ico">📄</div><b>Документы</b><span>PDF, DOCX, XLSX под контролем</span></a>
+  </div>
+</section>
+
+<section>
+  <h2>💼 Работа</h2>
+  <div class="grid">
+    <a class="card" href="https://t.me/GenieV_bot?text=Помоги найти клиентов"><div class="ico">🎯</div><b>Найти клиентов</b><span>прогрев и скрипты продаж</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Сделай презентацию"><div class="ico">📊</div><b>Презентация</b><span>слайды за минуты</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Помоги создать сайт"><div class="ico">🌐</div><b>Создать сайт</b><span>лендинг под ключ</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Помоги решить задачу"><div class="ico">🧠</div><b>Решить задачу</b><span>математика, код, анализ</span></a>
+  </div>
+</section>
+
+<section>
+  <h2>☀️ На каждый день</h2>
+  <div class="grid">
+    <a class="card" href="https://t.me/GenieV_bot?text=Составь план на день"><div class="ico">📅</div><b>План на день</b><span>расписание и приоритеты</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Что приготовить из..."><div class="ico">🍳</div><b>Рецепт ужина</b><span>из того, что в холодильнике</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Поставь напоминание"><div class="ico">⏰</div><b>Напоминание</b><span>ничего не забуду</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Объясни простыми словами"><div class="ico">💡</div><b>Объяснить</b><span>сложное — простыми словами</span></a>
+  </div>
+</section>
+
+<section>
+  <h2>🎨 Создание контента</h2>
+  <div class="grid">
+    <a class="card" href="https://t.me/GenieV_bot?text=Сгенерируй изображение"><div class="ico">🖼</div><b>Генерация картинок</b><span>любой стиль за секунды</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Напиши сценарий для Reels"><div class="ico">📱</div><b>Сценарии Reels</b><span>идеи, крючки, структура</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Сделай карусель для соцсетей"><div class="ico">🎠</div><b>Карусели</b><span>посты-карусели целиком</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Придумай лид-магнит"><div class="ico">🧲</div><b>Лид-магнит</b><span>чтобы подписывались</span></a>
+  </div>
+</section>
+
+<section>
+  <h2>🎉 Развлечения</h2>
+  <div class="grid">
+    <a class="card" href="https://t.me/GenieV_bot?text=Давай сыграем в игру"><div class="ico">🎲</div><b>Игры</b><span>словесные, логические, на двоих</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Сделай расклад таро"><div class="ico">🔮</div><b>Таро</b><span>расклад и толкование</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Тест на совместимость"><div class="ico">💞</div><b>Совместимость</b><span>проверь вашу пару</span></a>
+    <a class="card" href="https://t.me/GenieV_bot?text=Придумай развлечение"><div class="ico">🎪</div><b>Ещё больше</b><span>квесты, викторины, тесты</span></a>
+  </div>
+</section>
+
+<a class="cta" href="https://t.me/GenieV_bot">🧞 Начать бесплатно в Telegram</a>
+<footer>@GenieV_bot · Поддержка: @Genie_support_bot</footer>
+
+<script>
+(function(){
+  var a=document.getElementById('bg'),b=document.getElementById('music'),started=false;
+  function tryPlay(){if(started)return;started=true;a.volume=0.25;a.play().then(function(){b.textContent='🔊';}).catch(function(){started=false;});}
+  ['pointerdown','touchstart','keydown'].forEach(function(e){document.addEventListener(e,tryPlay,{once:false});});
+  b.addEventListener('click',function(ev){ev.stopPropagation();if(a.paused){a.play();b.textContent='🔊';}else{a.pause();b.textContent='🔈';}});
+})();
+</script>
+</body>
+</html>
