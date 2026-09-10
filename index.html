@@ -159,7 +159,7 @@ footer a{color:#bcd0ff}
   var a=document.getElementById('bg'),b=document.getElementById('music'),started=false;a.src=(Math.random()<0.5?'music-a.mp3':'music-b.mp3');
   var MAX=0.036;                    // рабочий уровень громкости
   var IDLE_MS=600;                  // мышь спокойна 0.6с — начинаем затухать
-  var FADE_IN_SEC=6,FADE_OUT_SEC=9;   // полное нарастание ~6с, полное затухание ~9с — медленно и плавно
+  var TAU_IN=2.5,TAU_OUT=4.0;   // постоянные времени сглаживания, с: ~95% нарастания за ~7.5с, затухания за ~12с, кривая без изломов
   var lastMove=0,cur=0,tgt=0;
   function tryPlay(){if(started)return;started=true;a.play().catch(function(){});a.volume=cur;a.play().then(function(){b.textContent='🔊';}).catch(function(){started=false;});}
   tryPlay();
@@ -173,8 +173,8 @@ footer a{color:#bcd0ff}
     var dt=lastT?(t-lastT)/1000:0.016;lastT=t;
     var active=(Date.now()-lastMove)<IDLE_MS;
     tgt=active?MAX:0;
-    var rate=MAX/(active?FADE_IN_SEC:FADE_OUT_SEC); // доля громкости в секунду — не зависит от FPS
-    if(cur<tgt)cur=Math.min(tgt,cur+rate*dt);else if(cur>tgt)cur=Math.max(tgt,cur-rate*dt);
+    var tau=active?TAU_IN:TAU_OUT;               // экспоненциальное сглаживание: старт и финиш мягкие
+    cur+=(tgt-cur)*(1-Math.exp(-dt/tau));
     if(!a.paused)a.volume=cur; // затухание — до нуля, пауза не нужна (loop)
     requestAnimationFrame(tick);
   }
@@ -202,5 +202,47 @@ footer a{color:#bcd0ff}
 })();
 
 </script>
+
+<script>
+// Выбор канала: Чат / MAX / Telegram — вместо прямого перехода в Telegram
+(function(){
+  var CHAT='https://chat.geniev.ru', MAXL='https://max.ru/id4100044993_bot';
+  var saved=null; try{saved=localStorage.getItem('genie_channel');}catch(e){}
+  function openCh(href,ch){
+    if(ch==='tg'){window.open(href,'_blank');}
+    else if(ch==='chat'){window.open(CHAT,'_blank');}
+    else{window.open(MAXL,'_blank');}
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest?e.target.closest('a[href^="https://t.me/GenieV_bot"]'):null;
+    if(!a)return;
+    e.preventDefault();
+    if(saved){openCh(a.href,saved);return;}
+    var ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;background:rgba(4,12,40,.72);backdrop-filter:blur(4px);z-index:999;display:flex;align-items:center;justify-content:center;font-family:inherit';
+    ov.innerHTML='<div style="background:#0e2a6b;border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:26px 22px;max-width:340px;width:92%;text-align:center;color:#fff;box-shadow:0 24px 60px rgba(0,0,0,.45)">'
+      +'<div style="font-size:30px">🧞</div><b style="font-size:18px;display:block;margin:6px 0 2px">Куда перейти?</b>'
+      +'<div style="font-size:13px;opacity:.8;margin-bottom:16px">Выбери, где удобнее общаться с Джином</div>'
+      +'<a data-ch="chat" style="display:block;margin:10px 0;padding:13px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;text-decoration:none;font-weight:700" href="#">💬 Чат на сайте</a>'
+      +'<a data-ch="max" style="display:block;margin:10px 0;padding:13px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;text-decoration:none;font-weight:700" href="#">⚡ MAX</a>'
+      +'<a data-ch="tg" style="display:block;margin:10px 0;padding:13px;border-radius:14px;background:#ffd23f;color:#0a1e4e;text-decoration:none;font-weight:700" href="#">✈️ Telegram</a>'
+      +'<label style="display:block;margin-top:10px;font-size:12px;opacity:.85;cursor:pointer"><input type="checkbox" id="gRem"> Запомнить выбор</label>'
+      +'</div>';
+    document.body.appendChild(ov);
+    function close(){ov.remove();}
+    ov.addEventListener('click',function(ev){
+      if(ev.target===ov){close();return;}
+      var l=ev.target.closest?ev.target.closest('a[data-ch]'):null;
+      if(!l)return;
+      ev.preventDefault();
+      var ch=l.getAttribute('data-ch');
+      var rem=ov.querySelector('#gRem');
+      if(rem&&rem.checked){saved=ch;try{localStorage.setItem('genie_channel',ch);}catch(e2){}}
+      close();openCh(a.href,ch);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
