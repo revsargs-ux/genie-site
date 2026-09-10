@@ -168,16 +168,19 @@ footer a{color:#bcd0ff}
   ['mousemove','pointermove','touchmove','wheel','scroll'].forEach(function(e){
     document.addEventListener(e,function(){lastMove=Date.now();},{passive:true});
   });
-  var lastT=0;
+  var lastT=0,lastWall=0;
   function tick(t){
-    var dt=lastT?(t-lastT)/1000:0.016;lastT=t;
-    var active=(Date.now()-lastMove)<IDLE_MS;
+    var wall=Date.now();
+    var dt=lastWall?(wall-lastWall)/1000:0.016;lastWall=wall;
+    // активность = мышь двигалась И вкладка видима; фон/другая вкладка — всегда затухание
+    var active=document.visibilityState==='visible'&&(Date.now()-lastMove)<IDLE_MS;
     tgt=active?MAX:0;
     var tau=active?TAU_IN:TAU_OUT;               // экспоненциальное сглаживание: старт и финиш мягкие
     cur+=(tgt-cur)*(1-Math.exp(-dt/tau));
     if(!a.paused)a.volume=cur; // затухание — до нуля, пауза не нужна (loop)
-    requestAnimationFrame(tick);
   }
+  // в фоновой вкладке rAF замирает — тикаем таймером, чтобы музыка гарантированно гасла
+  setInterval(function(){tick(Date.now());},400);
   requestAnimationFrame(tick);
   b.addEventListener('click',function(ev){ev.stopPropagation();if(a.paused){a.play();b.textContent='🔊';}else{a.pause();b.textContent='🔈';}});
 })();
