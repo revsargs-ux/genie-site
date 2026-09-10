@@ -157,9 +157,26 @@ footer a{color:#bcd0ff}
 <script>
 (function(){
   var a=document.getElementById('bg'),b=document.getElementById('music'),started=false;a.src=(Math.random()<0.5?'music-a.mp3':'music-b.mp3');
-  function tryPlay(){if(started)return;started=true;a.play().catch(function(){});a.volume=0.036;a.play().then(function(){b.textContent='🔊';}).catch(function(){started=false;});}
+  var MAX=0.036;                    // рабочий уровень громкости
+  var IDLE_MS=600;                  // мышь спокойна 0.6с — начинаем затухать
+  var FADE_IN=0.05,FADE_OUT=0.012;  // скорость нарастания/затухания (доли громкости за кадр)
+  var lastMove=0,cur=0,tgt=0;
+  function tryPlay(){if(started)return;started=true;a.play().catch(function(){});a.volume=cur;a.play().then(function(){b.textContent='🔊';}).catch(function(){started=false;});}
   tryPlay();
   ['pointerdown','touchstart','keydown'].forEach(function(e){document.addEventListener(e,tryPlay,{once:false});});
+  // активность на странице = движение мыши/пальца/скролл
+  ['mousemove','pointermove','touchmove','wheel','scroll'].forEach(function(e){
+    document.addEventListener(e,function(){lastMove=Date.now();},{passive:true});
+  });
+  function tick(){
+    var active=(Date.now()-lastMove)<IDLE_MS;
+    tgt=active?MAX:0;
+    var st=active?FADE_IN:FADE_OUT;
+    if(cur<tgt)cur=Math.min(tgt,cur+st);else if(cur>tgt)cur=Math.max(tgt,cur-st);
+    if(!a.paused)a.volume=cur; // затухание — до нуля, пауза не нужна (loop)
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
   b.addEventListener('click',function(ev){ev.stopPropagation();if(a.paused){a.play();b.textContent='🔊';}else{a.pause();b.textContent='🔈';}});
 })();
 
