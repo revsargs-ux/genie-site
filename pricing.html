@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Цены — Genie | Калькулятор стоимости</title>
+<meta name="description" content="Прозрачные цены Genie: видео 6,5 ₽/сек, фото 7 ₽/шт, музыка 70 ₽/трек. Калькулятор заказа, тарифы FREE и BASIC, баланс не сгорает.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+background:#0a0e27;color:#e8ecf7;line-height:1.5;padding:0 0 60px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+header{padding:40px 0 28px;text-align:center}
+h1{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;
+background:linear-gradient(120deg,#8b7cff,#4fd1c5);-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;margin-bottom:10px}
+.sub{color:#8b96b8;font-size:15px;max-width:600px;margin:0 auto}
+h2{font-size:20px;font-weight:700;margin:36px 0 16px;color:#cfd6ea;
+display:flex;align-items:center;gap:10px}
+h2::before{content:'';width:4px;height:20px;background:linear-gradient(#8b7cff,#4fd1c5);border-radius:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:#131a38;border:1px solid #232b4d;border-radius:16px;padding:22px}
+.card.hot{border-color:#8b7cff;background:linear-gradient(160deg,#1a1e46,#131a38);
+box-shadow:0 0 0 1px rgba(139,124,255,.25),0 8px 32px rgba(139,124,255,.12)}
+.tn{font-size:13px;font-weight:700;letter-spacing:.08em;color:#8b7cff;margin-bottom:8px}
+.tp{font-size:32px;font-weight:800;margin-bottom:4px}
+.tp span{font-size:15px;font-weight:500;color:#8b96b8}
+.tf{color:#8b96b8;font-size:14px}
+.mo{color:#4fd1c5;font-size:13px;margin-top:8px}
+.gift{color:#ffd23f;font-size:13px;margin-top:8px}
+.row{display:grid;grid-template-columns:1fr 2fr auto;gap:16px;align-items:center;
+padding:14px 18px;background:#131a38;border:1px solid #232b4d;
+border-radius:12px;margin-bottom:8px}
+.rn{font-weight:600;font-size:15px}
+.rd{color:#8b96b8;font-size:13.5px}
+.rp{font-weight:700;color:#4fd1c5;white-space:nowrap;font-size:15px}
+.calc{background:linear-gradient(160deg,#1a1e46,#131a38);border:1px solid #8b7cff;
+border-radius:20px;padding:26px;margin-top:16px}
+.crow{display:grid;grid-template-columns:1fr auto auto;gap:14px;
+align-items:center;margin-bottom:14px}
+.cl{font-size:15px;font-weight:600}
+.num{width:80px;padding:10px;border-radius:10px;border:1px solid #2d3760;
+background:#0a0e27;color:#e8ecf7;font-size:16px;font-weight:700;text-align:center}
+.ct{color:#8b96b8;font-size:13px;min-width:80px;text-align:right}
+.total{border-top:1px solid #2d3760;margin-top:18px;padding-top:18px;
+display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.tl{font-size:16px;color:#8b96b8}
+.tv{font-size:34px;font-weight:800;color:#4fd1c5}
+.note{color:#8b96b8;font-size:12.5px;margin-top:10px}
+.tb{padding:10px 18px;border-radius:10px;border:1px solid #2d3760;background:#131a38;
+color:#e8ecf7;font-size:14px;font-weight:600;cursor:pointer;margin:4px 6px 0 0}
+.tb:hover{border-color:#8b7cff;color:#8b7cff}
+.cta{display:inline-block;margin-top:24px;padding:14px 28px;border-radius:12px;
+background:linear-gradient(120deg,#8b7cff,#6a5ae0);color:#fff;text-decoration:none;
+font-weight:700;font-size:15px}
+.foot{margin-top:40px;padding-top:20px;border-top:1px solid #232b4d;
+color:#6b7699;font-size:12.5px;text-align:center}
+.foot a{color:#8b7cff;text-decoration:none}
+.cmpwrap{margin-top:12px}
+.cmpint{color:#8b96b8;font-size:13.5px;margin-bottom:12px}
+table.cmp{width:100%;border-collapse:collapse;background:#131a38;
+border:1px solid #232b4d;border-radius:14px;overflow:hidden;font-size:14px}
+table.cmp th{background:#1a2140;text-align:left;padding:11px 16px;
+font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+color:#7b87a8;font-weight:700;border-bottom:1px solid #232b4d}
+table.cmp td{padding:11px 16px;border-bottom:1px solid rgba(35,43,77,.6)}
+table.cmp tr:last-child td{border-bottom:none}
+table.cmp tr:hover td{background:rgba(139,124,255,.05)}
+table.cmp tr.ours td{background:rgba(139,124,255,.10)}
+table.cmp .cn{font-weight:700}
+table.cmp .cp{font-weight:700;color:#4fd1c5;white-space:nowrap}
+table.cmp .cl{text-align:right;white-space:nowrap}
+table.cmp .cl a{color:#8b7cff;text-decoration:none;font-size:13px}
+table.cmp .dead{color:#f85149;font-size:11px;font-weight:600}
+table.cmp .auto{color:#4fd1c5;font-size:10px;font-weight:700;opacity:.75;
+border:1px solid rgba(79,209,197,.35);border-radius:6px;padding:0 4px;vertical-align:middle}
+table.cmp .mut{color:#6b7699;font-size:12.5px}
+.cmpfoot{margin-top:14px;padding:14px 16px;background:#131a38;
+border:1px solid #232b4d;border-radius:12px;color:#8b96b8;font-size:13px;line-height:1.7}
+.cmpfoot a{color:#8b7cff;text-decoration:none;font-weight:600}
+</style></head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Цены без сюрпризов</h1>
+  <p class="sub">Платишь за результат. Баланс не сгорает. Считай свой заказ до оплаты.</p>
+</header>
+
+<h2>Тарифы</h2>
+<div class="grid"><div class="card">
+  <div class="tn">FREE</div>
+  <div class="tp">0 ₽</div>
+  <div class="tf">чат 20/день · поиск 5/день</div>
+  <div class="gift">🎁 4 фото + 1 трек</div>
+</div><div class="card hot">
+  <div class="tn">BASIC</div>
+  <div class="tp">499 ₽<span>/мес</span></div>
+  <div class="tf">чат 100/день · поиск 20/день</div>
+  <div class="mo">каждый месяц: видео 20 сек, фото 10, треков 4</div>
+</div></div>
+
+<h2>Видео</h2>
+<div class="row"><div class="rn">Видео из текста</div><div class="rd">текст → ролик 5-20 сек, 16:9 / 9:16 / 1:1</div><div class="rp">6.5&nbsp;₽/сек</div></div><div class="row"><div class="rn">Видео по фото</div><div class="rd">оживление фото, движение камеры</div><div class="rp">6.5&nbsp;₽/сек</div></div><div class="row"><div class="rn">Кино из сценария</div><div class="rd">раскадровка → сцены → склейка → озвучка</div><div class="rp">6.5&nbsp;₽/сек</div></div>
+<h2>Фото</h2>
+<div class="row"><div class="rn">Фото из текста</div><div class="rd">любой стиль, 16:9 / 1:1 / 9:16</div><div class="rp">7.0&nbsp;₽/шт</div></div><div class="row"><div class="rn">Правка фото</div><div class="rd">изменить готовое фото по описанию (flux-kontext)</div><div class="rp">7.0&nbsp;₽/шт</div></div><div class="row"><div class="rn">Коллаж персонажей</div><div class="rd">один герой в разных сценах</div><div class="rp">7.0&nbsp;₽/шт</div></div>
+<h2>Музыка и озвучка</h2>
+<div class="row"><div class="rn">Музыкальный трек</div><div class="rd">до 4 минут, с вокалом или инструментал</div><div class="rp">70.0&nbsp;₽/трек</div></div><div class="row"><div class="rn">Озвучка текста</div><div class="rd">входит в BASIC</div><div class="rp">включено</div></div>
+
+<h2>Калькулятор заказа</h2>
+<div class="calc">
+  <div class="crow">
+    <div class="cl">🎬 Видео (секунды)</div>
+    <input class="num" id="vsec" type="number" min="0" max="600" value="20" oninput="calc()">
+    <div class="ct" id="vcost">—</div>
+  </div>
+  <div class="crow">
+    <div class="cl">🖼 Фото (штук)</div>
+    <input class="num" id="pnum" type="number" min="0" max="200" value="4" oninput="calc()">
+    <div class="ct" id="pcost">—</div>
+  </div>
+  <div class="crow">
+    <div class="cl">🎵 Музыка (треков)</div>
+    <input class="num" id="mnum" type="number" min="0" max="50" value="1" oninput="calc()">
+    <div class="ct" id="mcost">—</div>
+  </div>
+  <div class="total">
+    <div class="tl">Итого по балансу</div>
+    <div class="tv" id="total">—</div>
+  </div>
+  <div class="note">С BASIC видео 20 сек и 4 трека уже входят в подписку — тогда баланс не тратится.</div>
+  <div style="margin-top:16px">
+    <div class="tl" style="margin-bottom:6px;font-size:14px">Быстрое пополнение:</div>
+    <button class="tb" onclick="setTopup(999)">999 ₽</button><button class="tb" onclick="setTopup(1499)">1499 ₽</button><button class="tb" onclick="setTopup(1999)">1999 ₽</button>
+  </div>
+</div>
+
+<h2>Сколько стоит у других</h2>
+<div class="cmpwrap">
+  <div class="cmpint">Мы не единственные на рынке — сравни сам. Цены входа у конкурентов
+  (обновляется автоматически · проверено 19.10 01:12):</div>
+  <table class="cmp">
+    <thead><tr><th>Сервис</th><th>Цена входа</th><th>Пруф</th></tr></thead>
+    <tbody>
+      <tr class="ours"><td class="cn">🧞 Genie</td><td class="cp">0 ₽ / 499 ₽/мес</td><td class="cl"><span class="mut">ты здесь</span></td></tr>
+      <tr><td class="cn">Vlex AI</td><td class="cp">от 499 ₽ <span class="auto" title="снято автоматически с сайта конкурента">авто</span></td><td class="cl"><a href="https://vlex-ai.io/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">GoGPT</td><td class="cp">от 699 ₽ <span class="auto" title="снято автоматически с сайта конкурента">авто</span></td><td class="cl"><a href="https://gogpt.ru/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">MashaGPT</td><td class="cp">от 990 ₽ <span class="auto" title="снято автоматически с сайта конкурента">авто</span></td><td class="cl"><a href="https://mashagpt.link/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">BotHub</td><td class="cp">Pay-As-You-Go</td><td class="cl"><a href="https://bothub.chat/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">ChadGPT</td><td class="cp">290 ₽/мес</td><td class="cl"><a href="https://ask.chadgpt.ru/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">GPTunnel</td><td class="cp">от $5 PAYG</td><td class="cl"><a href="https://gptunnel.ru/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">Kandinsky</td><td class="cp">бесплатно</td><td class="cl"><a href="https://kandinsky.ai/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">MazAI</td><td class="cp">токены</td><td class="cl"><span class="mut">—</span></td></tr><tr><td class="cn">Most-AI</td><td class="cp">от 3 ₽</td><td class="cl"><a href="https://most-ai.com/pricing" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">Polza.ai</td><td class="cp">по токенам</td><td class="cl"><a href="https://polza.ai/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">STUDIO VVS</td><td class="cp">подписка</td><td class="cl"><span class="mut">—</span></td></tr><tr><td class="cn">Study24.ai</td><td class="cp">бесплатный тариф</td><td class="cl"><a href="https://study24.ai/" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">Syntx AI</td><td class="cp">750 ₽/мес <span class="dead">битая</span></td><td class="cl"><a href="https://syntx.ai/ru" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">YES AI</td><td class="cp">баллы + монеты</td><td class="cl"><a href="https://yesai.su/prices" target="_blank" rel="nofollow">цены →</a></td></tr><tr><td class="cn">ruGPT.io</td><td class="cp">138 ₽/мес</td><td class="cl"><a href="https://rugpt.io/" target="_blank" rel="nofollow">цены →</a></td></tr>
+    </tbody>
+  </table>
+  <div class="cmpfoot">
+    <b>Почему это честно:</b> у большинства конкурентов — доступ к набору моделей по промпту.
+    Genie делает работу целиком: раскадровка → генерация → склейка → озвучка → готовый фильм.
+    Плюс память о твоих задачах во всех трёх каналах и обучение внутри чата.<br>
+    <a href="/competitors.html">Полная карта рынка и сравнение по 12 критериям →</a>
+  </div>
+</div>
+
+
+
+<a class="cta" href="https://t.me/GenieV_bot">🧞 Открыть Genie в Telegram</a>
+<span style="display:inline-block;width:12px"></span>
+<a class="cta" href="https://max.ru/id4100044993_bot"
+   style="background:rgba(255,255,255,.12);border:1px solid #2d3760">▶ MAX</a>
+
+<div class="foot">
+  Цены действуют с 17.10.2026. Списание — по факту оказанной услуги.
+  Изменение цен не влияет на ранее оплаченный баланс.<br>
+  <a href="/privacy.html">Политика конфиденциальности</a> ·
+  <a href="/oferta.html">Публичная оферта</a> ·
+  <a href="https://t.me/GenieV_support_bot">Поддержка</a>
+</div>
+</div>
+<script>
+const P={video:6.5,photo:7.0,music:70.0};
+let selectedTopup=0;
+function fmt(n){return n.toLocaleString('ru-RU')+' ₽';}
+function calc(){
+  const v=Math.max(0,+document.getElementById('vsec').value||0);
+  const p=Math.max(0,+document.getElementById('pnum').value||0);
+  const m=Math.max(0,+document.getElementById('mnum').value||0);
+  const vc=v*P.video, pc=p*P.photo, mc=m*P.music;
+  document.getElementById('vcost').textContent=vc?fmt(vc):'0 ₽';
+  document.getElementById('pcost').textContent=pc?fmt(pc):'0 ₽';
+  document.getElementById('mcost').textContent=mc?fmt(mc):'0 ₽';
+  const t=vc+pc+mc;
+  document.getElementById('total').textContent=fmt(t);
+}
+function setTopup(v){
+  selectedTopup=v;
+  document.querySelectorAll('.tb').forEach(b=>b.style.borderColor='#2d3760');
+  event.target.style.borderColor='#8b7cff';
+  document.getElementById('total').textContent=fmt(v)+' — баланс';
+}
+calc();
+</script>
+</body></html>
